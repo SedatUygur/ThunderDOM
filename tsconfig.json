@@ -1,16 +1,16 @@
 {
-    "compilerOptions": {
-      "allowImportingTsExtensions": true,
-		"allowJs": true,
-		"checkJs": true,
-        "module": "esnext",
-		"moduleResolution": "node",
-		"noImplicitAny": false,
-		"outDir": "build",
-		"sourceMap": true,
-		"strict": true,
-        "target": "esnext",
-    },
-    //"exclude": ["node_modules", "build", "*.d.ts", "website"],
-    //"include": ["./**/*.ts", "./**/*.tsx"],
+  "compilerOptions": {
+    //"allowImportingTsExtensions": true,
+    "allowJs": true,
+    "checkJs": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "outDir": "build",
+    "sourceMap": true,
+    "strict": true,
+    "target": "esnext"
+  }
+  //"exclude": ["node_modules", "build", "*.d.ts", "website"],
+  //"include": ["./**/*.ts", "./**/*.tsx"],
 }

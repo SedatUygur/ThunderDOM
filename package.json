@@ -4,7 +4,14 @@
   "description": "A virtual DOM library with modularity and simplicity",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "coverage": "vitest run --coverage",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky",
+    "test": "vitest run --coverage",
+    "test:dev": "vitest watch"
   },
   "repository": {
     "type": "git",
@@ -38,5 +45,21 @@
   "bugs": {
     "url": "https://github.com/SedatUygur/ThunderDOM/issues"
   },
-  "homepage": "https://github.com/SedatUygur/ThunderDOM#readme"
+  "homepage": "https://github.com/SedatUygur/ThunderDOM#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/eslint-config-prettier": "^6.11.3",
+    "@vitest/coverage-v8": "^2.1.8",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.11",
+    "prettier": "3.4.2",
+    "vitest": "^2.1.8"
+  },
+  "lint-staged": {
+    "*.(ts|tsx|js|md)": "prettier --write --ignore-unknown"
+  }
 }
