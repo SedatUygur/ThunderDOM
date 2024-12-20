@@ -1,0 +1,15 @@
+build
+dist
+node_modules
+package-lock.json
+yarn-error.log
+yarn.lock
+dev
+coverage
+.DS_Store
+.pnpm-debug.log
+*.tgz
+.next
+.turbo
+.eslintcache
+.vscode

@@ -1,0 +1,42 @@
+{
+  "name": "thunderdom",
+  "version": "1.0.0",
+  "description": "A virtual DOM library with modularity and simplicity",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SedatUygur/ThunderDOM.git"
+  },
+  "keywords": [
+    "DOM",
+    "dom",
+    "VDOM",
+    "vdom",
+    "virtualdom",
+    "VirtualDOM",
+    "VDOM",
+    "library",
+    "vdom",
+    "library",
+    "virtualdom",
+    "library",
+    "VirtualDOM",
+    "library",
+    "modular",
+    "simple",
+    "modularity"
+  ],
+  "author": {
+    "name": "Sedat Uygur",
+    "email": "sedat.uygur@outlook.com",
+    "url": "https://github.com/SedatUygur"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SedatUygur/ThunderDOM/issues"
+  },
+  "homepage": "https://github.com/SedatUygur/ThunderDOM#readme"
+}
