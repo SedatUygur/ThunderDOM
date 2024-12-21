@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A virtual DOM library with modularity and simplicity",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "coverage": "vitest run --coverage",
     "format": "prettier --write .",
