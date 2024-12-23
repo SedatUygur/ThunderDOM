@@ -25,7 +25,7 @@ export const init = (root, state, update, view) => {
       queue = [];
 
       for (let message of messages) {
-        appState = update(appState, message);
+        appState = update(appState, message, enqueue);
       }
 
       applyState();

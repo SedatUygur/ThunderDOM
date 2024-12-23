@@ -2,7 +2,7 @@
 import { getEventName, handleEvent, updateListener } from "./event";
 import { setProps } from "../utilities/props";
 
-export const applyDifference = (element, childrenDifference) => {
+export const applyDifference = (element, enqueue, childrenDifference) => {
   const children = Array.from(element.childNodes);
 
   childrenDifference.forEach((difference, index) => {
@@ -34,7 +34,7 @@ export const applyDifference = (element, childrenDifference) => {
   });
 };
 
-function createNode(virtualNode) {
+function createNode(enqueue, virtualNode) {
   // Create a text node
   if (virtualNode.text !== undefined) {
     const el = document.createTextNode(virtualNode.text);
@@ -63,7 +63,7 @@ function createNode(virtualNode) {
   return el;
 }
 
-function modifyNode(element, difference) {
+function modifyNode(element, enqueue, difference) {
   // Remove props
   for (const prop of difference.remove) {
     const event = getEventName(prop);

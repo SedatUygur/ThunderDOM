@@ -8,7 +8,11 @@ export const getEventName = (eventName) => {
 export const handleEvent = (event) => {
   const element = event.currentTarget;
   const handler = element._ui.listeners[event.type];
-  handler(event);
+  const enqueue = element._ui.enqueue;
+  const message = handler(event);
+  if (message !== undefined) {
+    enqueue(message);
+  }
 };
 
 export const updateListener = (element, event, handle) => {
