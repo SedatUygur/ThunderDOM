@@ -1,5 +1,15 @@
 export class Dispatcher {
+  #handlers = [];
   #subscribers = new Map();
+
+  afterEveryCommand(handler) {
+    this.#handlers.push(handler);
+
+    return () => {
+      const idx = this.#handlers.indexOf(handler);
+      this.#handlers.splice(idx, 1);
+    };
+  }
 
   subscribe(command, handler) {
     if (!this.#subscribers.has(command)) {
