@@ -13,17 +13,17 @@ export const applyDifference = (element, childrenDifference) => {
         break;
 
       case "modify":
-        modify(children[index], difference.modify);
+        modifyNode(children[index], difference.modify);
         break;
 
       case "create": {
-        const child = create(difference.create);
+        const child = createNode(difference.create);
         element.appendChild(child);
         break;
       }
 
       case "replace": {
-        const child = create(difference.replace);
+        const child = createNode(difference.replace);
         children[index].replaceWith(child);
         break;
       }
@@ -34,15 +34,14 @@ export const applyDifference = (element, childrenDifference) => {
   });
 };
 
-function create(virtualNode) {
+function createNode(virtualNode) {
   // Create a text node
   if (virtualNode.text !== undefined) {
     const el = document.createTextNode(virtualNode.text);
     return el;
   }
 
-  // Create the DOM element with the correct tag and
-  // already add our object of listeners to it.
+  // Create the DOM element with the correct tag and already add our object of listeners to it.
   const el = document.createElement(virtualNode.tag);
   el._ui = { listeners: {} };
 
@@ -57,14 +56,14 @@ function create(virtualNode) {
 
   // Recursively create all the children and append one by one.
   for (const childVNode of virtualNode.children) {
-    const child = create(childVNode);
+    const child = createNode(childVNode);
     el.appendChild(child);
   }
 
   return el;
 }
 
-function modify(element, difference) {
+function modifyNode(element, difference) {
   // Remove props
   for (const prop of difference.remove) {
     const event = getEventName(prop);
