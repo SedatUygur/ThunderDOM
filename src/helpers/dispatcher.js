@@ -1,8 +1,19 @@
 export class Dispatcher {
+  //private props
   #handlers = [];
-  #subscribers = new Map();
+  #subscriptions = new Map();
 
-  afterEveryCommand(handler) {
+  dispatch(command, payload) {
+    if (this.#subscriptions.has(command)) {
+      this.#subscriptions.get(command).forEach((handler) => handler(payload));
+    } else {
+      console.error(`No handlers for command: ${command}`);
+    }
+
+    this.#handlers.forEach((handler) => handler());
+  }
+
+  register(handler) {
     this.#handlers.push(handler);
 
     return () => {
@@ -11,22 +22,12 @@ export class Dispatcher {
     };
   }
 
-  dispatch(command, payload) {
-    if (this.#subscribers.has(command)) {
-      this.#subscribers.get(command).forEach((handler) => handler(payload));
-    } else {
-      console.error(`No handlers for command: ${command}`);
-    }
-
-    this.#handlers.forEach((handler) => handler());
-  }
-
   subscribe(command, handler) {
-    if (!this.#subscribers.has(command)) {
-      this.#subscribers.set(command, []);
+    if (!this.#subscriptions.has(command)) {
+      this.#subscriptions.set(command, []);
     }
 
-    const handlers = this.#subscribers.get(command);
+    const handlers = this.#subscriptions.get(command);
     if (handlers.includes(handler)) {
       return () => {};
     }
