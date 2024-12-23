@@ -1,5 +1,5 @@
-import { applyDifference } from "./helpers/difference";
-import { getDifferenceArraysSequence } from "./utilities/arrays";
+import { applyDifference, diffList } from "./helpers/difference.js";
+//import { getDifferenceArraysSequence } from "./utilities/arrays.js";
 
 // Start managing the contents of an HTML element.
 export const init = (root, state, update, view) => {
@@ -14,11 +14,7 @@ export const init = (root, state, update, view) => {
   // applies the current state
   function applyState() {
     let newNodes = view(appState);
-    applyDifference(
-      root,
-      enqueue,
-      getDifferenceArraysSequence(nodes, newNodes),
-    );
+    applyDifference(root, enqueue, diffList(nodes, newNodes));
     nodes = newNodes;
   }
 

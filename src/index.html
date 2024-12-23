@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head> </head>
+  <body>
+    <div id="container"></div>
+    <script type="module">
+      import { init, h, text } from "./index.js";
+
+      function view(state) {
+        return [h("p", {}, [text(`Counter: ${state.counter}`)])];
+      }
+
+      function update(state, msg) {
+        return { counter: state.counter + msg };
+      }
+
+      const initialState = { counter: 0 };
+
+      const root = document.querySelector("#container");
+
+      // Start application
+      const { enqueue } = init(root, initialState, update, view);
+
+      // Increase the counter by one every second.
+      setInterval(() => enqueue(1), 1000);
+    </script>
+  </body>
+</html>

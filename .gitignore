@@ -15,4 +15,5 @@ yarn.lock
 .idea/
 .monitor
 .next
+.parcel-cache
 .vscode

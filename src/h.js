@@ -1,4 +1,4 @@
-import { VirtualNode } from "./vnode";
+import VirtualNode from "./vnode.js";
 
 // Create an HTML element description
 export const h = (tag, props, children) => {
