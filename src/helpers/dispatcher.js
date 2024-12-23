@@ -11,6 +11,16 @@ export class Dispatcher {
     };
   }
 
+  dispatch(command, payload) {
+    if (this.#subscribers.has(command)) {
+      this.#subscribers.get(command).forEach((handler) => handler(payload));
+    } else {
+      console.error(`No handlers for command: ${command}`);
+    }
+
+    this.#handlers.forEach((handler) => handler());
+  }
+
   subscribe(command, handler) {
     if (!this.#subscribers.has(command)) {
       this.#subscribers.set(command, []);
