@@ -13,17 +13,17 @@ export const applyDifference = (element, enqueue, childrenDifference) => {
         break;
 
       case "modify":
-        modifyNode(children[index], difference.modify);
+        modifyNode(children[index], enqueue, difference.modify);
         break;
 
       case "create": {
-        const child = createNode(difference.create);
+        const child = createNode(enqueue, difference.create);
         element.appendChild(child);
         break;
       }
 
       case "replace": {
-        const child = createNode(difference.replace);
+        const child = createNode(enqueue, difference.replace);
         children[index].replaceWith(child);
         break;
       }
@@ -43,7 +43,7 @@ function createNode(enqueue, virtualNode) {
 
   // Create the DOM element with the correct tag and already add our object of listeners to it.
   const el = document.createElement(virtualNode.tag);
-  el._ui = { listeners: {} };
+  el._ui = { listeners: {}, enqueue };
 
   for (const prop in virtualNode.properties) {
     const event = getEventName(prop);
@@ -55,8 +55,8 @@ function createNode(enqueue, virtualNode) {
   }
 
   // Recursively create all the children and append one by one.
-  for (const childVNode of virtualNode.children) {
-    const child = createNode(childVNode);
+  for (const childNode of virtualNode.children) {
+    const child = createNode(enqueue, childNode);
     el.appendChild(child);
   }
 
@@ -85,5 +85,5 @@ function modifyNode(element, enqueue, difference) {
   }
 
   // Deal with the children
-  applyDifference(element, difference.children);
+  applyDifference(element, enqueue, difference.children);
 }

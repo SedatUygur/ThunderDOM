@@ -14,7 +14,11 @@ export const init = (root, state, update, view) => {
   // applies the current state
   function applyState() {
     let newNodes = view(appState);
-    applyDifference(root, getDifferenceArraysSequence(nodes, newNodes));
+    applyDifference(
+      root,
+      enqueue,
+      getDifferenceArraysSequence(nodes, newNodes),
+    );
     nodes = newNodes;
   }
 
