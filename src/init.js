@@ -23,14 +23,18 @@ export const init = (root, state, update, view) => {
   }
 
   function updateState() {
-    if (queue.length > 0) {
+    if (queue && queue.length) {
       let messages = queue;
       // replace queue with an empty array so that we don't process newly queued messages on this round.
       queue = [];
 
-      for (let message of messages) {
-        appState = update(appState, message, enqueue);
-      }
+      messages.forEach((message) => {
+        try {
+          appState = update(appState, message, enqueue);
+        } catch (e) {
+          console.error(e);
+        }
+      });
 
       applyState();
     }
