@@ -119,7 +119,7 @@ const props = new Set([
   "wrap",
 ]);
 
-export const setProps = (prop, value, element) => {
+export const setProp = (prop, value, element) => {
   if (props.has(prop)) {
     element[prop] = value;
   } else {

@@ -10,13 +10,13 @@ export const handleEvent = (event) => {
   const handler = element._ui.listeners[event.type];
   const enqueue = element._ui.enqueue;
   const message = handler(event);
-  if (message !== undefined) {
+  if (message) {
     enqueue(message);
   }
 };
 
 export const updateListener = (element, event, handle) => {
-  if (element._ui.listeners[event] === undefined) {
+  if (!element._ui.listeners[event]) {
     element.addEventListener(event, handleEvent);
   }
 

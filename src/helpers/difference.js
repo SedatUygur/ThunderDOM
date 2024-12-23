@@ -1,30 +1,30 @@
 // @ts-nocheck
 import { getEventName, handleEvent, updateListener } from "./event";
-import { setProps } from "../utilities/props";
+import { setProp } from "../utilities/props";
 
 export const applyDifference = (element, enqueue, childrenDifference) => {
-  const children = Array.from(element.childNodes);
+  const childrenNodes = Array.from(element.childNodes);
 
   childrenDifference.forEach((difference, index) => {
-    const action = Object.keys(difference)[0];
-    switch (action) {
-      case "remove":
-        children[index].remove();
+    const diffAction = Object.keys(difference)[0];
+    switch (diffAction) {
+      case "delete":
+        childrenNodes[index].remove();
         break;
 
       case "modify":
-        modifyNode(children[index], enqueue, difference.modify);
+        modifyNode(childrenNodes[index], enqueue, difference.modify);
         break;
 
-      case "create": {
-        const child = createNode(enqueue, difference.create);
+      case "insert": {
+        const child = createNode(enqueue, difference.insert);
         element.appendChild(child);
         break;
       }
 
-      case "replace": {
-        const child = createNode(enqueue, difference.replace);
-        children[index].replaceWith(child);
+      case "move": {
+        const child = createNode(enqueue, difference.move);
+        childrenNodes[index].replaceWith(child);
         break;
       }
 
@@ -36,52 +36,52 @@ export const applyDifference = (element, enqueue, childrenDifference) => {
 
 function createNode(enqueue, virtualNode) {
   // Create a text node
-  if (virtualNode.text !== undefined) {
-    const el = document.createTextNode(virtualNode.text);
-    return el;
+  if (virtualNode.text) {
+    const textNode = document.createTextNode(virtualNode.text);
+    return textNode;
   }
 
   // Create the DOM element with the correct tag and already add our object of listeners to it.
-  const el = document.createElement(virtualNode.tag);
-  el._ui = { listeners: {}, enqueue };
+  const element = document.createElement(virtualNode.tag);
+  element._ui = { listeners: {}, enqueue };
 
-  for (const prop in virtualNode.properties) {
-    const event = getEventName(prop);
-    const value = virtualNode.properties[prop];
+  for (const property in virtualNode.properties) {
+    const eventName = getEventName(property);
+    const value = virtualNode.properties[property];
     // If it's an event set it otherwise set the value as a property.
-    event !== null
-      ? updateListener(el, event, value)
-      : setProps(prop, value, el);
+    eventName
+      ? updateListener(element, eventName, value)
+      : setProp(property, value, element);
   }
 
   // Recursively create all the children and append one by one.
-  for (const childNode of virtualNode.children) {
-    const child = createNode(enqueue, childNode);
-    el.appendChild(child);
+  for (const childVNode of virtualNode.children) {
+    const childNode = createNode(enqueue, childVNode);
+    element.appendChild(childNode);
   }
 
-  return el;
+  return element;
 }
 
 function modifyNode(element, enqueue, difference) {
   // Remove props
-  for (const prop of difference.remove) {
-    const event = getEventName(prop);
-    if (event === null) {
+  for (const prop of difference.delete) {
+    const removeEventName = getEventName(prop);
+    if (!removeEventName) {
       element.removeAttribute(prop);
     } else {
-      element._ui.listeners[event] = undefined;
-      element.removeEventListener(event, handleEvent);
+      element._ui.listeners[removeEventName] = undefined;
+      element.removeEventListener(removeEventName, handleEvent);
     }
   }
 
   // Set props
   for (const prop in difference.set) {
     const value = difference.set[prop];
-    const event = getEventName(prop);
-    event !== null
-      ? updateListener(element, event, value)
-      : setProps(prop, value, element);
+    const eventName = getEventName(prop);
+    eventName
+      ? updateListener(element, eventName, value)
+      : setProp(prop, value, element);
   }
 
   // Deal with the children
